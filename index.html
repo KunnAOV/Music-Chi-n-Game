@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Chơi Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
+            text-align: center;
+            color: #fff; /* White text for contrast */
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #key-entry, #player {
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #feb47b;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff7e5f;
+        }
+        #controls button {
+            background-color: #ff7e5f;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="key-entry">
+        <h1>Chào Mừng</h1>
+        <p>Web Nhạc Chiến Game</p>
+        <p>♥️Kunn AOV♥️</p>
+        <p>Nhập 'KUNNAOV' để vào♥️</p>
+        <input type="text" id="key-input" placeholder="Nhập key">
+        <button onclick="checkKey()">Check Key</button>
+        <p id="key-message"></p>
+    </div>
+
+    <div id="player" style="display: none;">
+        <h2>Nhạc Chiến Game</h2>
+        <p>Web Test Trước🌚</p>
+        <audio id="audio-player" controls>
+            <source id="audio-source" src="Nhac1.mp3" type="audio/mpeg">
+            Trình duyệt của bạn không hỗ trợ phần tử audio.
+        </audio>
+        <div id="controls">
+            <button onclick="previousTrack()">Trước</button>
+            <button onclick="togglePlay()">Phát/Tạm dừng</button>
+            <button onclick="nextTrack()">Tiếp theo</button>
+        </div>
+        <p id="current-time">00:00</p>
+        <p id="duration">00:00</p>
+    </div>
+
+    <script>
+        const correctKey = 'KUNNAOV'; // Thay đổi key ở đây
+        const keyEntryDiv = document.getElementById('key-entry');
+        const playerDiv = document.getElementById('player');
+        const audioPlayer = document.getElementById('audio-player');
+        const audioSource = document.getElementById('audio-source');
+        const keyMessage = document.getElementById('key-message');
+        const currentTimeDisplay = document.getElementById('current-time');
+        const durationDisplay = document.getElementById('duration');
+
+        const tracks = ['Dao_Hoa_Nac_1.mp3', 'Day_Bien×Tu_Cuu_Mon_Hoi_Uc_1.mp3', 'Fairy_tail.mp3', 'Gods.mp3', 'Khong_The_Do_Duoc_Luan_Hoi_1.mp3', 'Kiếp sau không chắc sẽ còn gặp được anh Remix 2023.mp3', 'Legend Never Die x Warriors.mp3', 'Mac_Van_Quy_Ky_1.mp3', 'Quẻ Bói.mp3', 'Tinh_Ve_1.mp3', 'Xich_Linh_1.mp3', 'Zella Day  East Of Eden  JAPANDEE REMIX.mp3', 'Đại Thiên Bồng Ver 2.mp3']; // Thay đổi đường dẫn bài hát
+        let currentTrackIndex = 0;
+
+        function checkKey() {
+            const enteredKey = document.getElementById('key-input').value;
+            if (enteredKey === correctKey) {
+                keyEntryDiv.style.display = 'none';
+                playerDiv.style.display = 'block';
+                changeTrack(); // Đảm bảo gọi changeTrack để phát nhạc ngay
+            } else {
+                keyMessage.textContent = 'Key không chính xác, vui lòng thử lại!';
+            }
+        }
+
+        function changeTrack() {
+            audioSource.src = tracks[currentTrackIndex];
+            audioPlayer.load(); // Tải bài hát mới
+            audioPlayer.play().catch(error => {
+                console.error('Không thể phát nhạc:', error);
+            }); // Phát bài hát ngay lập tức
+        }
+
+        audioPlayer.addEventListener('loadedmetadata', function() {
+            durationDisplay.textContent = formatTime(audioPlayer.duration);
+        });
+
+        audioPlayer.addEventListener('timeupdate', function() {
+            currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
+        });
+
+        function togglePlay() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+            } else {
+                audioPlayer.pause();
+            }
+        }
+
+        function previousTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+            changeTrack();
+        }
+
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+            changeTrack();
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>
