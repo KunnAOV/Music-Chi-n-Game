@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Chơi Game</title>
+    <title>Music Player with Key Entry</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -112,6 +112,10 @@
 
         audioPlayer.addEventListener('timeupdate', function() {
             currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
+        });
+
+        audioPlayer.addEventListener('ended', function() {
+            nextTrack(); // Chuyển bài khi bài hiện tại kết thúc
         });
 
         function togglePlay() {
