@@ -3,144 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player with Key Entry</title>
+    <title>Web Nhạc Chiến Game By Kunn AOV</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
-            text-align: center;
-            color: #fff; /* White text for contrast */
-            margin: 0;
-            padding: 0;
-            height: 100vh;
+            font-family: 'Poppins', sans-serif;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
-        #key-entry, #player {
-            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-            padding: 20px;
-            border-radius: 10px;
-            display: inline-block;
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1.5s ease-in-out;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(270deg, #ff6b6b, #ffd700, #6bff6b, #6b6bff);
+            background-size: 600% 600%;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: movingGradient 10s ease infinite;
+        }
+
+        @keyframes movingGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #fefefe;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
         input[type="text"] {
-            padding: 10px;
+            padding: 15px;
+            width: 80%;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 5px;
-            border: none;
-            width: 200px;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: none;
-            background-color: #feb47b;
+            background: rgba(255, 255, 255, 0.2);
             color: #fff;
+            font-size: 1em;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+            outline: none;
+        }
+
+        input[type="submit"] {
+            padding: 15px 30px;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
-        button:hover {
-            background-color: #ff7e5f;
+
+        input[type="submit"]:hover {
+            background-color: #ee5253;
+            transform: scale(1.05);
         }
-        #controls button {
-            background-color: #ff7e5f;
-            margin: 5px;
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Particle background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .redirect-message {
+            font-size: 1.5em;
+            color: #fff;
+            margin-top: 20px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        function validateKey(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            const keyInput = document.getElementById("keyInput").value;
+            const correctKey = "KunnAOV";
+
+            if (keyInput === correctKey) {
+                document.querySelector('.container').innerHTML = '<h2>Đang chuyển hướng...</h2><div class="redirect-message">Please wait...</div>';
+                setTimeout(() => {
+                    window.location.href = "indexphu.html";
+                }, 500);
+            } else {
+                alert("Key không hợp lệ. Vui lòng thử lại.");
+            }
+        }
+
+        window.onload = function() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: '#ffffff' },
+                    shape: {
+                        type: 'circle',
+                        stroke: { width: 0, color: '#000000' },
+                        polygon: { nb_sides: 5 }
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: false,
+                        anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false }
+                    },
+                    size: {
+                        value: 3,
+                        random: true,
+                        anim: { enable: false, speed: 40, size_min: 0.1, sync: false }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: '#ffffff',
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 6,
+                        direction: 'none',
+                        random: false,
+                        straight: false,
+                        out_mode: 'out',
+                        bounce: false,
+                        attract: { enable: false, rotateX: 600, rotateY: 1200 }
+                    }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: { enable: true, mode: 'repulse' },
+                        onclick: { enable: true, mode: 'push' },
+                        resize: true
+                    },
+                    modes: {
+                        grab: { distance: 400, line_linked: { opacity: 1 } },
+                        bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                        repulse: { distance: 200, duration: 0.4 },
+                        push: { particles_nb: 4 },
+                        remove: { particles_nb: 2 }
+                    }
+                },
+                retina_detect: true
+            });
+        };
+    </script>
 </head>
 <body>
-    <div id="key-entry">
-        <h1>Chào Mừng</h1>
-        <p>Web Nhạc Chiến Game</p>
-        <p>♥️Kunn AOV♥️</p>
-        <p>Nhập 'KUNNAOV' để vào♥️</p>
-        <input type="text" id="key-input" placeholder="Nhập key">
-        <button onclick="checkKey()">Check Key</button>
-        <p id="key-message"></p>
+
+    <div id="particles-js"></div>
+
+    <div class="container">
+        <h2>Chào mừng</h2>
+        <p>Nhập 'KunnAOV' để vào web</p>
+        <p>Vui lòng nhập key:</p>
+        <form onsubmit="validateKey(event)">
+            <input type="text" id="keyInput" required>
+            
+            <input type="submit" value="Xác nhận">
+        </form>
     </div>
 
-    <div id="player" style="display: none;">
-        <h2>Nhạc Chiến Game</h2>
-        <p>Web Test Trước🌚</p>
-        <audio id="audio-player" controls>
-            <source id="audio-source" src="Nhac1.mp3" type="audio/mpeg">
-            Trình duyệt của bạn không hỗ trợ phần tử audio.
-        </audio>
-        <div id="controls">
-            <button onclick="previousTrack()">Trước</button>
-            <button onclick="togglePlay()">Phát/Tạm dừng</button>
-            <button onclick="nextTrack()">Tiếp theo</button>
-        </div>
-        <p id="current-time">00:00</p>
-        <p id="duration">00:00</p>
-    </div>
-
-    <script>
-        const correctKey = 'KUNNAOV'; // Thay đổi key ở đây
-        const keyEntryDiv = document.getElementById('key-entry');
-        const playerDiv = document.getElementById('player');
-        const audioPlayer = document.getElementById('audio-player');
-        const audioSource = document.getElementById('audio-source');
-        const keyMessage = document.getElementById('key-message');
-        const currentTimeDisplay = document.getElementById('current-time');
-        const durationDisplay = document.getElementById('duration');
-
-        const tracks = ['Dao_Hoa_Nac_1.mp3', 'Day_Bien×Tu_Cuu_Mon_Hoi_Uc_1.mp3', 'Fairy_tail.mp3', 'Gods.mp3', 'Khong_The_Do_Duoc_Luan_Hoi_1.mp3', 'Kiếp sau không chắc sẽ còn gặp được anh Remix 2023.mp3', 'Legend Never Die x Warriors.mp3', 'Mac_Van_Quy_Ky_1.mp3', 'Quẻ Bói.mp3', 'Tinh_Ve_1.mp3', 'Xich_Linh_1.mp3', 'Zella Day  East Of Eden  JAPANDEE REMIX.mp3', 'Đại Thiên Bồng Ver 2.mp3']; // Thay đổi đường dẫn bài hát
-        let currentTrackIndex = 0;
-
-        function checkKey() {
-            const enteredKey = document.getElementById('key-input').value;
-            if (enteredKey === correctKey) {
-                keyEntryDiv.style.display = 'none';
-                playerDiv.style.display = 'block';
-                changeTrack(); // Đảm bảo gọi changeTrack để phát nhạc ngay
-            } else {
-                keyMessage.textContent = 'Key không chính xác, vui lòng thử lại!';
-            }
-        }
-
-        function changeTrack() {
-            audioSource.src = tracks[currentTrackIndex];
-            audioPlayer.load(); // Tải bài hát mới
-            audioPlayer.play().catch(error => {
-                console.error('Không thể phát nhạc:', error);
-            }); // Phát bài hát ngay lập tức
-        }
-
-        audioPlayer.addEventListener('loadedmetadata', function() {
-            durationDisplay.textContent = formatTime(audioPlayer.duration);
-        });
-
-        audioPlayer.addEventListener('timeupdate', function() {
-            currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
-        });
-
-        audioPlayer.addEventListener('ended', function() {
-            nextTrack(); // Chuyển bài khi bài hiện tại kết thúc
-        });
-
-        function togglePlay() {
-            if (audioPlayer.paused) {
-                audioPlayer.play();
-            } else {
-                audioPlayer.pause();
-            }
-        }
-
-        function previousTrack() {
-            currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
-            changeTrack();
-        }
-
-        function nextTrack() {
-            currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
-            changeTrack();
-        }
-
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-        }
-    </script>
 </body>
 </html>
